@@ -28,110 +28,87 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnSequential = new System.Windows.Forms.Button();
-            this.btnDirectAccess = new System.Windows.Forms.Button();
-            this.btnIndexed = new System.Windows.Forms.Button();
-            this.textBoxOutput = new System.Windows.Forms.TextBox();
-            this.btnWrite = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.btnAbrir = new System.Windows.Forms.Button();
+            this.btnIndexado = new System.Windows.Forms.Button();
+            this.btnSecuencial = new System.Windows.Forms.Button();
+            this.btnDirecto = new System.Windows.Forms.Button();
+            this.listBoxDatos = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // btnSequential
+            // btnAbrir
             // 
-            this.btnSequential.Location = new System.Drawing.Point(26, 143);
-            this.btnSequential.Name = "btnSequential";
-            this.btnSequential.Size = new System.Drawing.Size(105, 23);
-            this.btnSequential.TabIndex = 0;
-            this.btnSequential.Text = "sequential";
-            this.btnSequential.UseVisualStyleBackColor = true;
-            this.btnSequential.Click += new System.EventHandler(this.btnSequential_Click);
+            this.btnAbrir.Location = new System.Drawing.Point(384, 69);
+            this.btnAbrir.Name = "btnAbrir";
+            this.btnAbrir.Size = new System.Drawing.Size(75, 23);
+            this.btnAbrir.TabIndex = 0;
+            this.btnAbrir.Text = "ABRIR";
+            this.btnAbrir.UseVisualStyleBackColor = true;
+            this.btnAbrir.Click += new System.EventHandler(this.btnAbrir_Click);
             // 
-            // btnDirectAccess
+            // btnIndexado
             // 
-            this.btnDirectAccess.Location = new System.Drawing.Point(26, 270);
-            this.btnDirectAccess.Name = "btnDirectAccess";
-            this.btnDirectAccess.Size = new System.Drawing.Size(105, 23);
-            this.btnDirectAccess.TabIndex = 1;
-            this.btnDirectAccess.Text = "Direct";
-            this.btnDirectAccess.UseVisualStyleBackColor = true;
-            this.btnDirectAccess.Click += new System.EventHandler(this.btnDirectAccess_Click);
+            this.btnIndexado.Location = new System.Drawing.Point(539, 126);
+            this.btnIndexado.Name = "btnIndexado";
+            this.btnIndexado.Size = new System.Drawing.Size(116, 23);
+            this.btnIndexado.TabIndex = 4;
+            this.btnIndexado.Text = "INDEXEADO";
+            this.btnIndexado.UseVisualStyleBackColor = true;
+            this.btnIndexado.Click += new System.EventHandler(this.btnIndexado_Click);
             // 
-            // btnIndexed
+            // btnSecuencial
             // 
-            this.btnIndexed.Location = new System.Drawing.Point(26, 214);
-            this.btnIndexed.Name = "btnIndexed";
-            this.btnIndexed.Size = new System.Drawing.Size(105, 23);
-            this.btnIndexed.TabIndex = 2;
-            this.btnIndexed.Text = "indexed";
-            this.btnIndexed.UseVisualStyleBackColor = true;
-            this.btnIndexed.Click += new System.EventHandler(this.btnIndexed_Click);
+            this.btnSecuencial.Location = new System.Drawing.Point(539, 69);
+            this.btnSecuencial.Name = "btnSecuencial";
+            this.btnSecuencial.Size = new System.Drawing.Size(116, 23);
+            this.btnSecuencial.TabIndex = 5;
+            this.btnSecuencial.Text = "SECUENCIAL";
+            this.btnSecuencial.UseVisualStyleBackColor = true;
+            this.btnSecuencial.Click += new System.EventHandler(this.btnSecuencial_Click);
             // 
-            // textBoxOutput
+            // btnDirecto
             // 
-            this.textBoxOutput.Location = new System.Drawing.Point(228, 114);
-            this.textBoxOutput.Multiline = true;
-            this.textBoxOutput.Name = "textBoxOutput";
-            this.textBoxOutput.Size = new System.Drawing.Size(542, 265);
-            this.textBoxOutput.TabIndex = 3;
+            this.btnDirecto.Location = new System.Drawing.Point(539, 181);
+            this.btnDirecto.Name = "btnDirecto";
+            this.btnDirecto.Size = new System.Drawing.Size(116, 23);
+            this.btnDirecto.TabIndex = 6;
+            this.btnDirecto.Text = "DIRECTO";
+            this.btnDirecto.UseVisualStyleBackColor = true;
+            this.btnDirecto.Click += new System.EventHandler(this.btnDirecto_Click);
             // 
-            // btnWrite
+            // listBoxDatos
             // 
-            this.btnWrite.Location = new System.Drawing.Point(241, 23);
-            this.btnWrite.Name = "btnWrite";
-            this.btnWrite.Size = new System.Drawing.Size(75, 23);
-            this.btnWrite.TabIndex = 4;
-            this.btnWrite.Text = "Guardar";
-            this.btnWrite.UseVisualStyleBackColor = true;
-            this.btnWrite.Click += new System.EventHandler(this.btnWrite_Click);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(163, 23);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(39, 16);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Valor";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(163, 57);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 16);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Texto";
+            this.listBoxDatos.FormattingEnabled = true;
+            this.listBoxDatos.ItemHeight = 16;
+            this.listBoxDatos.Location = new System.Drawing.Point(109, 126);
+            this.listBoxDatos.Name = "listBoxDatos";
+            this.listBoxDatos.Size = new System.Drawing.Size(413, 164);
+            this.listBoxDatos.TabIndex = 7;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.btnWrite);
-            this.Controls.Add(this.textBoxOutput);
-            this.Controls.Add(this.btnIndexed);
-            this.Controls.Add(this.btnDirectAccess);
-            this.Controls.Add(this.btnSequential);
+            this.Controls.Add(this.listBoxDatos);
+            this.Controls.Add(this.btnDirecto);
+            this.Controls.Add(this.btnSecuencial);
+            this.Controls.Add(this.btnIndexado);
+            this.Controls.Add(this.btnAbrir);
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button btnSequential;
-        private System.Windows.Forms.Button btnDirectAccess;
-        private System.Windows.Forms.Button btnIndexed;
-        private System.Windows.Forms.TextBox textBoxOutput;
-        private System.Windows.Forms.Button btnWrite;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.Windows.Forms.Button btnAbrir;
+        private System.Windows.Forms.Button btnIndexado;
+        private System.Windows.Forms.Button btnSecuencial;
+        private System.Windows.Forms.Button btnDirecto;
+        private System.Windows.Forms.ListBox listBoxDatos;
     }
 }
 

@@ -14,26 +14,16 @@ namespace ACT2_archivos_Csharp
 {
     public partial class Form1 : Form
     {
-        private const string SequentialFilePath = "sequential_file.txt";
-        private const string IndexedFilePath = "indexed_file.txt";
-        private const string DirectAccessFilePath = "direct_access_file.dat";
-        private TextBox txtKey;
-        private TextBox txtValue;
-        
+        private string currentFileName;
+        private List<string> data;  // Puedes cambiar el tipo de datos según tus necesidades
+        private Dictionary<int, string> indexedData;  // Puedes cambiar el tipo de datos según tus necesidades
+        private int recordSize = 100; // Tamaño fijo del registro, ajusta según tus necesidades
+        private Dictionary<int, string> directData; // Puedes cambiar el tipo de datos según tus necesidades
 
         public Form1()
         {
             InitializeComponent();
-            txtKey = new TextBox();
-            txtKey.Location = new Point(10, 10);
-            this.Controls.Add(txtKey);
-
-            txtValue = new TextBox();
-            txtValue.Location = new Point(10, 40);
-            this.Controls.Add(txtValue);
-
-       
-
+      
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -41,233 +31,202 @@ namespace ACT2_archivos_Csharp
 
         }
 
-        private void btnSequential_Click(object sender, EventArgs e)
+        //private void btnLeer_Click(object sender, EventArgs e)
+        //{
+        //    if (currentFileName != null)
+        //    {
+        //        // Lógica para leer datos del archivo
+        //        // Ejemplo: data = LeerArchivo(currentFileName);
+        //        MostrarDatos(data);
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Por favor, abre un archivo antes de intentar leer.");
+        //    }
+        //}
+
+        //private void btnAgregar_Click(object sender, EventArgs e)
+        //{
+        //    if (currentFileName != null)
+        //    {
+        //        // Lógica para agregar datos al archivo
+        //        // Ejemplo: AgregarDatos(data, "Nuevo dato");
+        //        MessageBox.Show("Dato agregado correctamente.");
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Por favor, abre un archivo antes de intentar agregar datos.");
+        //    }
+        //}
+
+        //private void btnBorrar_Click(object sender, EventArgs e)
+        //{
+        //    if (currentFileName != null)
+        //    {
+        //        // Lógica para borrar datos del archivo
+        //        // Ejemplo: BorrarDatos(data, "Dato a borrar");
+        //        MessageBox.Show("Dato borrado correctamente.");
+        //    }
+        //    else
+        //    {
+        //        MessageBox.Show("Por favor, abre un archivo antes de intentar borrar datos.");
+        //    }
+        //}
+
+        private void btnSecuencial_Click(object sender, EventArgs e)
         {
-            // Operaciones para archivos secuenciales
+            if (currentFileName != null)
+            {
+                // Lógica específica para archivos secuenciales
+                LeerArchivoSecuencial(currentFileName);
+                MostrarDatos(data);
+            }
+            else
+            {
+                MessageBox.Show("Por favor, abre un archivo secuencial antes de realizar operaciones.");
+            }
+        }
+
+        private void LeerArchivoSecuencial(string fileName)
+        {
+            // Lógica para leer un archivo secuencial
             try
             {
-                // Escritura en el archivo
-                WriteSequentialFile();
-                MessageBox.Show("Datos escritos correctamente en el archivo secuencial.");
-
-                // Lectura del archivo
-                ReadSequentialFile();
-                MessageBox.Show("Datos leídos correctamente del archivo secuencial.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error en operaciones de archivo secuencial: {ex.Message}");
-            }
-        }
-
-        private void btnIndexed_Click(object sender, EventArgs e)
-        {// Operaciones para archivos secuenciales indexados
-            try
-            {
-                // Escritura en el archivo
-                int key = int.Parse(txtKey.Text);
-                string value = txtValue.Text;
-
-                WriteIndexedFile(key, value);
-                MessageBox.Show("Datos escritos correctamente en el archivo indexado.");
-
-                // Lectura del archivo
-                ReadIndexedFile();
-                MessageBox.Show("Datos leídos correctamente del archivo indexado.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error en operaciones de archivo indexado: {ex.Message}");
-            }
-        }
-
-        private void btnDirectAccess_Click(object sender, EventArgs e)
-        {
-            // Operaciones para archivos de acceso directo
-            try
-            {
-                // Escritura en el archivo
-                WriteDirectAccessFile();
-                MessageBox.Show("Datos escritos correctamente en el archivo de acceso directo.");
-
-                // Lectura del archivo
-                ReadDirectAccessFile();
-                MessageBox.Show("Datos leídos correctamente del archivo de acceso directo.");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error en operaciones de archivo de acceso directo: {ex.Message}");
-            }
-        }
-
-        private void WriteSequentialFile()
-        {
-            using (StreamWriter writer = new StreamWriter(SequentialFilePath, true))  // Modo de escritura: true para añadir al final
-            {
-                writer.WriteLine("3,New,Record");  // Agrega nuevas líneas según sea necesario
-            }
-        }
-
-        private void ReadSequentialFile()
-        {
-            textBoxOutput.Text = "";  // Limpia el contenido anterior en el cuadro de texto
-
-            using (StreamReader reader = new StreamReader(SequentialFilePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
+                using (StreamReader reader = new StreamReader(fileName))
                 {
-                    // Agrega cada línea al cuadro de texto
-                    textBoxOutput.AppendText(line + Environment.NewLine);
-                }
-            }
-        }
-        // Métodos para archivos secuenciales indexados
-        private void WriteIndexedFile(int key, string value)
-        {
-            using (StreamWriter writer = new StreamWriter(IndexedFilePath, true))
-            {
-                writer.WriteLine($"{key},{value}");
-            }
-        }
-
-        private void ReadIndexedFile()
-        {
-            textBoxOutput.Text = "";  // Limpia el contenido anterior en el cuadro de texto
-
-            Dictionary<int, string> indexedData = new Dictionary<int, string>();
-
-            using (StreamReader reader = new StreamReader(IndexedFilePath))
-            {
-                string line;
-                while ((line = reader.ReadLine()) != null)
-                {
-                    string[] parts = line.Split(',');
-                    if (parts.Length == 2 && int.TryParse(parts[0], out int key))
+                    data = new List<string>();
+                    while (!reader.EndOfStream)
                     {
-                        indexedData[key] = parts[1];
+                        string line = reader.ReadLine();
+                        data.Add(line);
                     }
                 }
             }
-
-            // Ordena el diccionario por clave antes de mostrarlo
-            var sortedData = indexedData.OrderBy(pair => pair.Key);
-
-            // Agrega cada entrada ordenada del diccionario al cuadro de texto
-            foreach (var entry in sortedData)
+            catch (Exception ex)
             {
-                textBoxOutput.AppendText($"{entry.Key}: {entry.Value}" + Environment.NewLine);
+                MessageBox.Show($"Error al leer el archivo secuencial: {ex.Message}");
             }
         }
 
-
-
-
-        private void WriteDirectAccessFile()
+        private void MostrarDatos(List<string> dataList)
         {
-            DirectAccessRecord[] records = new DirectAccessRecord[]
+            // Lógica para mostrar datos en algún control (por ejemplo, un ListBox)
+            // Puedes adaptar esta lógica según tu interfaz de usuario
+            listBoxDatos.Items.Clear();
+            foreach (var item in dataList)
             {
-        new DirectAccessRecord { Id = 1, FirstName = "John", LastName = "Doe" },
-        new DirectAccessRecord { Id = 2, FirstName = "Jane", LastName = "Smith" },
-        new DirectAccessRecord { Id = 3, FirstName = "New", LastName = "Record" }  // Agrega nuevos registros según sea necesario
-            };
+                listBoxDatos.Items.Add(item);
+            }
+        }
 
-            using (BinaryWriter writer = new BinaryWriter(File.Open(DirectAccessFilePath, FileMode.Append)))  // Cambia FileMode.Create a FileMode.Append
+        private void btnIndexado_Click(object sender, EventArgs e)
+        {
+            if (currentFileName != null)
             {
-                foreach (var record in records)
+                // Lógica específica para archivos secuenciales indexados
+                LeerArchivoIndexado(currentFileName);
+                MostrarDatosIndexados(indexedData);
+            }
+            else
+            {
+                MessageBox.Show("Por favor, abre un archivo indexado antes de realizar operaciones.");
+            }
+        }
+        private void LeerArchivoIndexado(string fileName)
+        {
+            // Lógica para leer un archivo secuencial indexado
+            try
+            {
+                indexedData = new Dictionary<int, string>();
+                using (StreamReader reader = new StreamReader(fileName))
                 {
-                    byte[] recordBytes = StructureToByteArray(record);
-                    writer.Write(recordBytes);
+                    while (!reader.EndOfStream)
+                    {
+                        string line = reader.ReadLine();
+                        // Supongamos que el índice está en la primera posición de cada línea
+                        string[] parts = line.Split(',');
+                        if (parts.Length >= 2 && int.TryParse(parts[0], out int index))
+                        {
+                            indexedData[index] = line.Substring(parts[0].Length + 1); // El +1 es para ignorar la coma
+                        }
+                    }
                 }
-            }
-        }
-
-        private void ReadDirectAccessFile()
-        {
-            textBoxOutput.Text = "";  // Limpia el contenido anterior en el cuadro de texto
-
-            List<DirectAccessRecord> records = new List<DirectAccessRecord>();
-
-            using (BinaryReader reader = new BinaryReader(File.Open(DirectAccessFilePath, FileMode.Open)))
-            {
-                while (reader.BaseStream.Position < reader.BaseStream.Length)
-                {
-                    byte[] recordBytes = reader.ReadBytes(Marshal.SizeOf(typeof(DirectAccessRecord)));
-                    DirectAccessRecord record = ByteArrayToStructure<DirectAccessRecord>(recordBytes);
-                    records.Add(record);
-                }
-            }
-
-            // Agrega cada registro al cuadro de texto
-            foreach (var record in records)
-            {
-                textBoxOutput.AppendText($"{record.Id}: {record.FirstName} {record.LastName}" + Environment.NewLine);
-            }
-        }
-
-        // Métodos auxiliares y estructuras (mantén estos métodos en tu código)
-        private static byte[] StructureToByteArray<T>(T structure) where T : struct
-        {
-            int size = Marshal.SizeOf(structure);
-            byte[] array = new byte[size];
-            IntPtr ptr = Marshal.AllocHGlobal(size);
-
-            try
-            {
-                Marshal.StructureToPtr(structure, ptr, false);
-                Marshal.Copy(ptr, array, 0, size);
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(ptr);
-            }
-
-            return array;
-        }
-
-        private static T ByteArrayToStructure<T>(byte[] array) where T : struct
-        {
-            T structure;
-            int size = Marshal.SizeOf(typeof(T));
-
-            IntPtr ptr = Marshal.AllocHGlobal(size);
-            try
-            {
-                Marshal.Copy(array, 0, ptr, size);
-                structure = (T)Marshal.PtrToStructure(ptr, typeof(T));
-            }
-            finally
-            {
-                Marshal.FreeHGlobal(ptr);
-            }
-
-            return structure;
-        }
-
-        // Estructura para archivos de acceso directo
-        [StructLayout(LayoutKind.Sequential, Pack = 1)]
-        struct DirectAccessRecord
-        {
-            public int Id;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
-            public string FirstName;
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 20)]
-            public string LastName;
-        }
-        private void btnWrite_Click(object sender, EventArgs e)
-        {
-            // Operación para archivos secuenciales indexados (escritura)
-            try
-            {
-                int key = int.Parse(txtKey.Text);
-                string value = txtValue.Text;
-
-                WriteIndexedFile(key, value);
-                MessageBox.Show("Datos escritos correctamente en el archivo indexado.");
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al escribir datos en el archivo indexado: {ex.Message}");
+                MessageBox.Show($"Error al leer el archivo indexado: {ex.Message}");
+            }
+        }
+
+        private void MostrarDatosIndexados(Dictionary<int, string> indexedData)
+        {
+            // Lógica para mostrar datos en algún control (por ejemplo, un ListBox)
+            // Puedes adaptar esta lógica según tu interfaz de usuario
+            listBoxDatos.Items.Clear();
+            foreach (var kvp in indexedData)
+            {
+                listBoxDatos.Items.Add($"{kvp.Key}: {kvp.Value}");
+            }
+        }
+
+        private void btnDirecto_Click(object sender, EventArgs e)
+        {
+            if (currentFileName != null)
+            {
+                // Lógica específica para archivos de acceso directo
+                LeerArchivoDirecto(currentFileName);
+                MostrarDatosDirectos(directData);
+            }
+            else
+            {
+                MessageBox.Show("Por favor, abre un archivo de acceso directo antes de realizar operaciones.");
+            }
+        }
+        private void LeerArchivoDirecto(string fileName)
+        {
+            // Lógica para leer un archivo de acceso directo
+            try
+            {
+                directData = new Dictionary<int, string>();
+                using (BinaryReader reader = new BinaryReader(File.Open(fileName, FileMode.Open)))
+                {
+                    while (reader.BaseStream.Position < reader.BaseStream.Length)
+                    {
+                        int key = reader.ReadInt32();
+                        byte[] dataBytes = reader.ReadBytes(recordSize - sizeof(int));
+                        string data = System.Text.Encoding.UTF8.GetString(dataBytes);
+                        directData[key] = data;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al leer el archivo de acceso directo: {ex.Message}");
+            }
+        }
+
+        private void MostrarDatosDirectos(Dictionary<int, string> directData)
+        {
+            // Lógica para mostrar datos en algún control (por ejemplo, un ListBox)
+            // Puedes adaptar esta lógica según tu interfaz de usuario
+            listBoxDatos.Items.Clear();
+            foreach (var kvp in directData)
+            {
+                listBoxDatos.Items.Add($"{kvp.Key}: {kvp.Value}");
+            }
+        }
+
+        private void btnAbrir_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Archivos de texto (*.txt)|*.txt|Todos los archivos (*.*)|*.*";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                currentFileName = openFileDialog.FileName;
+                // Lógica para abrir el archivo y cargar datos en 'data'
+                // Ejemplo: data = LeerArchivo(currentFileName);
+                MessageBox.Show("Archivo abierto correctamente.");
             }
         }
     }
